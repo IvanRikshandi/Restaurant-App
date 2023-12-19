@@ -14,37 +14,27 @@ class BuildRestaurantList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).orientation == Orientation.landscape) {
-      return GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            crossAxisSpacing: 2,
-            mainAxisSpacing: 8,
-            childAspectRatio: 0.7),
-        shrinkWrap: true,
-        itemCount: viewModel.menu.length,
-        itemBuilder: (context, idx) {
-          final menus = viewModel.menu[idx];
-          return buildCard(context, menus);
-        },
-      );
-    } else {
-      return GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 2,
-            mainAxisSpacing: 8,
-            childAspectRatio: 0.6),
-        shrinkWrap: true,
-        itemCount: viewModel.menu.length,
-        itemBuilder: (context, idx) {
-          final menus = viewModel.menu[idx];
-          return buildCard(context, menus);
-        },
-      );
-    }
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: MediaQuery.of(context).orientation == Orientation.landscape
+          ? const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              crossAxisSpacing: 2,
+              mainAxisSpacing: 8,
+              childAspectRatio: 0.8,
+            )
+          : const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 2,
+              mainAxisSpacing: 8,
+              childAspectRatio: 0.8),
+      shrinkWrap: true,
+      itemCount: viewModel.menu.length,
+      itemBuilder: (context, idx) {
+        final menus = viewModel.menu[idx];
+        return buildCard(context, menus);
+      },
+    );
   }
 
 // Card
@@ -62,59 +52,67 @@ class BuildRestaurantList extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: SizedBox(
-                  height: 180,
-                  child: Image.network(
-                    menus.pictureId,
-                    fit: BoxFit.cover,
+              Flexible(
+                flex: 5,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: SizedBox(
+                    height: 180,
+                    child: Image.network(
+                      menus.pictureId,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(
                 height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      menus.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        menus.name,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.location_on, size: 10),
-                      Text(
-                        menus.city,
-                        style: GoogleFonts.poppins(fontSize: 10),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.star_rate_rounded,
-                        size: 12,
-                        color: Colors.red,
-                      ),
-                      Text(
-                        '${menus.rating}',
-                        style: GoogleFonts.poppins(fontSize: 10),
-                      ),
-                    ],
-                  ),
-                ],
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on, size: 10),
+                        Text(
+                          menus.city,
+                          style: GoogleFonts.poppins(fontSize: 10),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.star_rate_rounded,
+                          size: 12,
+                          color: Colors.red,
+                        ),
+                        Text(
+                          '${menus.rating}',
+                          style: GoogleFonts.poppins(fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

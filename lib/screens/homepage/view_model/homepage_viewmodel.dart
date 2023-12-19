@@ -6,6 +6,7 @@ class HomepageRestaurantViewModel {
 
   Future<void> getMenuFromJson() async {
     try {
+      await Future.delayed(const Duration(seconds: 5));
       final jsonString =
           await rootBundle.loadString('assets/data/dummydata.json');
       final restauranAppModel = restaurantAppModelFromJson(jsonString);
