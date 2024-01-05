@@ -1,16 +1,8 @@
-# restaurant_app
+# Restaurant App
 
-A new Flutter project.
+**Inspiration for a simple restaurant application**
 
-## Getting Started
+## Stack
+![TechStack](https://github.com/IvanRikshandi/Restaurant-App/assets/97116625/39ac846b-e029-4cbf-98af-4ddb24d71d1b)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Feature Highlights
