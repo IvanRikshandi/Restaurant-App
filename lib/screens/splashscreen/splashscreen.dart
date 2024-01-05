@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return Timer(durationSplash, () {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (x) => HomePage()));
+          .pushReplacement(MaterialPageRoute(builder: (x) => const HomePage()));
     });
   }
 

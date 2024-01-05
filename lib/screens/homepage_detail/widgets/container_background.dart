@@ -1,27 +1,26 @@
-import 'package:flutter/material.dart';
-import '../../homepage/models/restaurantmodels.dart';
+// import 'package:flutter/material.dart';
 
-class BackgroundWidget extends StatelessWidget {
-  const BackgroundWidget({
-    super.key,
-    required this.item,
-  });
+// class BackgroundWidget extends StatelessWidget {
+//   const BackgroundWidget({
+//     super.key,
+//     required this.imgUrl,
+//   });
 
-  final Restaurant item;
+//   final String imgUrl;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(item.pictureId),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.8),
-            BlendMode.darken,
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         image: DecorationImage(
+//           image: NetworkImage(imgUrl),
+//           fit: BoxFit.cover,
+//           colorFilter: ColorFilter.mode(
+//             Colors.black.withOpacity(0.8),
+//             BlendMode.darken,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

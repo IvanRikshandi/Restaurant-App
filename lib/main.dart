@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/screens/homepage/view_model/homepage_viewmodel.dart';
+import 'package:restaurant_app/screens/homepage_detail/view_model/detailHomepage_viewmodel.dart';
 import 'package:restaurant_app/screens/splashscreen/splashscreen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,19 +19,25 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark),
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: const Color(0xffFFFFFF),
-        secondaryHeaderColor: const Color(0xff212121),
-        scaffoldBackgroundColor: const Color(0xffF6F7FC),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xffF6F7FC),
-          foregroundColor: Color(0xff212121),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => HomepageRestaurantViewModel()),
+        ChangeNotifierProvider(create: (_) => DetailRestaurantViewModel()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: const Color(0xffFFFFFF),
+          secondaryHeaderColor: const Color(0xff212121),
+          scaffoldBackgroundColor: const Color(0xffF6F7FC),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xffF6F7FC),
+            foregroundColor: Color(0xff212121),
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
+        home: const SplashScreen(),
       ),
-      home: const SplashScreen(),
     );
   }
 }
