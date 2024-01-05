@@ -6,7 +6,6 @@ import 'package:restaurant_app/common/constants/constants.dart';
 import 'package:restaurant_app/screens/homepage/view_model/homepage_viewmodel.dart';
 import 'package:restaurant_app/screens/homepage/view/widget/carousel.dart';
 import '../../homepage_detail/view/homepage_detail.dart';
-import 'widget/gridview.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
