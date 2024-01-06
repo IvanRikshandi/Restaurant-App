@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.network(viewModel.getImgNoData()),
+        Image.asset(viewModel.getImgNoData()),
         const Text('No data available'),
       ],
     );
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.network(viewModel.getImg404Error()),
+        Image.asset(viewModel.getImg404Error()),
         const Text('Error: Failed to load data'),
       ],
     );
