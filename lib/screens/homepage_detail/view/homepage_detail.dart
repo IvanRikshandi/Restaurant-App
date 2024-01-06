@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/constants/constants.dart';
-import 'package:restaurant_app/screens/homepage/models/restaurant_detail.dart';
-import 'package:restaurant_app/screens/homepage/view_model/homepage_viewmodel.dart';
 import 'package:restaurant_app/screens/homepage_detail/view_model/detailHomepage_viewmodel.dart';
-import '../widgets/container_background.dart';
+import 'widgets/container_background.dart';
 
 class HomePageDetail extends StatefulWidget {
   const HomePageDetail({
@@ -20,7 +19,8 @@ class HomePageDetail extends StatefulWidget {
 }
 
 class _HomePageDetailState extends State<HomePageDetail> {
-  DetailRestaurantViewModel viewModel = DetailRestaurantViewModel();
+  DetailRestaurantViewModel get viewModel =>
+      context.read<DetailRestaurantViewModel>();
 
   @override
   void initState() {
@@ -45,12 +45,18 @@ class _HomePageDetailState extends State<HomePageDetail> {
     return Consumer<DetailRestaurantViewModel>(
         builder: (context, viewModel, _) {
       if (viewModel.state == ResultState.loading) {
-        return Center(child: CircularProgressIndicator());
+        return buildLoading(viewModel);
+      } else if (viewModel.state == ResultState.failure) {
+        return buildErrorData(viewModel);
+      } else if (viewModel.state == ResultState.noData) {
+        return buildNoData(viewModel);
       } else {
         final restaurant = viewModel.restaurantDetailApp.restaurant;
+        String imgUrl =
+            DetailRestaurantViewModel().getImageUrl(restaurant.pictureId);
         return Stack(
           children: [
-            //BackgroundWidget(imgUrl: imgUrl),
+            BackgroundWidget(imgUrl: imgUrl),
             Scaffold(
                 backgroundColor: Colors.transparent,
                 appBar: AppBar(
@@ -275,6 +281,32 @@ class _HomePageDetailState extends State<HomePageDetail> {
     });
   }
 
+  Widget buildNoData(DetailRestaurantViewModel viewModel) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Image.network(viewModel.getImgNoData()),
+        const Text('No data available'),
+      ],
+    );
+  }
+
+  Widget buildErrorData(DetailRestaurantViewModel viewModel) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Image.network(viewModel.getImg404Error()),
+        const Text('Error: Failed to load data'),
+      ],
+    );
+  }
+
+  Widget buildLoading(DetailRestaurantViewModel viewModel) {
+    return Center(child: LottieBuilder.network(viewModel.getLottieLoading()));
+  }
+
   Widget _landscapeMode() {
     return Consumer<DetailRestaurantViewModel>(
         builder: (context, viewModel, _) {
@@ -283,11 +315,11 @@ class _HomePageDetailState extends State<HomePageDetail> {
       } else {
         final restaurant = viewModel.restaurantDetailApp.restaurant;
         String imgUrl =
-            HomepageRestaurantViewModel().getImageUrl(restaurant.pictureId);
+            DetailRestaurantViewModel().getImageUrl(restaurant.pictureId);
 
         return Stack(
           children: [
-            //BackgroundWidget(imgUrl: imgUrl),
+            BackgroundWidget(imgUrl: imgUrl),
             Scaffold(
                 backgroundColor: Colors.transparent,
                 appBar: AppBar(

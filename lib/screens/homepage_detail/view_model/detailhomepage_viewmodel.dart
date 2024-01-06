@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../common/constants/constants.dart';
+import '../../../common/global/imgurls.dart';
 import '../../homepage/models/restaurant_detail.dart';
 
 class DetailRestaurantViewModel extends ChangeNotifier {
@@ -20,5 +21,25 @@ class DetailRestaurantViewModel extends ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  String getImageUrl(String pictureId) {
+    if (pictureId.isNotEmpty) {
+      return '${BaseConstant.baseUrl}/images/medium/$pictureId';
+    } else {
+      return ImageUrls.placeholderImage;
+    }
+  }
+
+  String getLottieLoading() {
+    return ImageUrls.lottieLoading;
+  }
+
+  String getImg404Error() {
+    return ImageUrls.img404Error;
+  }
+
+  String getImgNoData() {
+    return ImageUrls.imgNoData;
   }
 }
