@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../common/constants/constants.dart';
 import '../../../common/global/imgurls.dart';
-import '../../homepage/models/restaurant_detail.dart';
+import '../models/restaurant_detail.dart';
 
 class DetailRestaurantViewModel extends ChangeNotifier {
   final BaseConstant _apiService = BaseConstant();
@@ -16,7 +16,6 @@ class DetailRestaurantViewModel extends ChangeNotifier {
       _restaurantDetailApp = await _apiService.fetchRestaurantDetail(id);
       _state = ResultState.hasData;
     } catch (e) {
-      print('Error fetching data: $e');
       _state = ResultState.failure;
     } finally {
       notifyListeners();

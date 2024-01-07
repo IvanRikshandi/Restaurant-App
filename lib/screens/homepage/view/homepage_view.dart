@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/constants/constants.dart';
+import 'package:restaurant_app/screens/homepage/view/widget/carousel.dart';
 import 'package:restaurant_app/screens/homepage/view_model/homepage_viewmodel.dart';
+import 'widget/gridview.dart';
 import 'widget/listview.dart';
 
 class HomePage extends StatefulWidget {
@@ -49,9 +52,9 @@ class _HomePageState extends State<HomePage> {
         if (viewModel.state == ResultState.loading) {
           return buildLoading(viewModel);
         } else if (viewModel.state == ResultState.failure) {
-          return buildErrorData(viewModel);
+          return const Text('Error: Failed to load data');
         } else if (viewModel.state == ResultState.noData) {
-          return buildNoData(viewModel);
+          return const Text('No data available');
         } else {
           return BuildHasData(viewModel: viewModel);
         }
@@ -98,6 +101,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildLoading(HomepageRestaurantViewModel viewModel) {
-    return Center(child: LottieBuilder.asset(viewModel.getLottieLoading()));
+    return Center(child: Lottie.asset(viewModel.getLottieLoading()));
   }
 }

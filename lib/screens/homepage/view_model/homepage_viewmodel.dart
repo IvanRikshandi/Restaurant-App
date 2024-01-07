@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:restaurant_app/common/constants/constants.dart';
 import 'package:restaurant_app/common/global/imgurls.dart';
-import 'package:restaurant_app/screens/homepage/models/restaurant_detail.dart';
+import 'package:restaurant_app/screens/homepage_detail/models/restaurant_detail.dart';
 import '../models/restaurantmodels.dart';
 
 class HomepageRestaurantViewModel extends ChangeNotifier {
@@ -17,15 +17,35 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
   Future<void> fetchRestaurantList() async {
     try {
       _state = ResultState.loading;
-
       _restaurantAppModel = await _apiService.fetchRestaurantList();
+      if (_restaurantAppModel.restaurants.isEmpty) {
+        _state = ResultState.noData;
+      } else {
+        _state = ResultState.hasData;
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      _state = ResultState.failure;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> searchRestaurants(String query) async {
+    try {
+      _state = ResultState.loading;
+      notifyListeners();
+
+      _restaurantAppModel =
+          (await _apiService.searchRestaurant(query)) as RestaurantAppModel;
 
       if (_restaurantAppModel.restaurants.isEmpty) {
         _state = ResultState.noData;
       } else {
         _state = ResultState.hasData;
       }
-    } catch (_) {
+    } catch (error) {
+      print('Error searching restaurants: $error');
       _state = ResultState.failure;
     } finally {
       notifyListeners();

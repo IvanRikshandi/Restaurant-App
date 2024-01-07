@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:restaurant_app/screens/homepage/view/widget/carousel.dart';
 import 'package:restaurant_app/screens/homepage/view/widget/gridview.dart';
+import 'package:restaurant_app/screens/homepage/view/widget/textfield_search.dart';
 import '../../view_model/homepage_viewmodel.dart';
 
 class BuildHasData extends StatelessWidget {
@@ -21,6 +22,8 @@ class BuildHasData extends StatelessWidget {
           children: [
             Column(
               children: [
+                TextFieldWidget(viewModel: viewModel),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Column(
