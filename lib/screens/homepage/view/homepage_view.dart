@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import 'package:restaurant_app/common/constants/constants.dart';
 import 'package:restaurant_app/screens/homepage/view/widget/carousel.dart';
-import 'package:restaurant_app/screens/homepage/view_model/homepage_viewmodel.dart';
 import 'widget/gridview.dart';
-import 'widget/listview.dart';
+import 'widget/textfield_search.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,19 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomepageRestaurantViewModel get viewModel =>
-      context.read<HomepageRestaurantViewModel>();
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  void loadData() async {
-    await viewModel.fetchRestaurantList();
-  }
-
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.landscape) {
@@ -47,60 +30,118 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _portraitMode() {
-    return Consumer<HomepageRestaurantViewModel>(
-      builder: (context, viewModel, _) {
-        if (viewModel.state == ResultState.loading) {
-          return buildLoading(viewModel);
-        } else if (viewModel.state == ResultState.failure) {
-          return const Text('Error: Failed to load data');
-        } else if (viewModel.state == ResultState.noData) {
-          return const Text('No data available');
-        } else {
-          return BuildHasData(viewModel: viewModel);
-        }
-      },
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      children: [
+        Column(
+          children: [
+            Column(
+              children: [
+                const TextFieldWidget(),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Welcome Foodies',
+                          style: GoogleFonts.poppins(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          'Discover your best culinary experience \nhere.',
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Carousel(),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      'Recomendation',
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Colors.orange),
+                    ),
+                  ],
+                ),
+                const Divider(thickness: 1),
+                const SizedBox(height: 10),
+                const BuildRestaurantList()
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 
   Widget _landscapeMode() {
-    return Consumer<HomepageRestaurantViewModel>(
-      builder: (context, viewModel, _) {
-        if (viewModel.state == ResultState.loading) {
-          return buildLoading(viewModel);
-        } else if (viewModel.state == ResultState.failure) {
-          return buildErrorData(viewModel);
-        } else if (viewModel.state == ResultState.noData) {
-          return buildNoData(viewModel);
-        } else {
-          return BuildHasData(viewModel: viewModel);
-        }
-      },
-    );
-  }
-
-  Widget buildNoData(HomepageRestaurantViewModel viewModel) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       children: [
-        Image.asset(viewModel.getImgNoData()),
-        const Text('No data available'),
+        Column(
+          children: [
+            Column(
+              children: [
+                const TextFieldWidget(),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Welcome Foodies',
+                          style: GoogleFonts.poppins(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          'Discover your best culinary experience \nhere.',
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Carousel(),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      'Recomendation',
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Colors.orange),
+                    ),
+                  ],
+                ),
+                const Divider(thickness: 1),
+                const SizedBox(height: 10),
+                const BuildRestaurantList()
+              ],
+            ),
+          ],
+        ),
       ],
     );
-  }
-
-  Widget buildErrorData(HomepageRestaurantViewModel viewModel) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image.asset(viewModel.getImg404Error()),
-        const Text('Error: Failed to load data'),
-      ],
-    );
-  }
-
-  Widget buildLoading(HomepageRestaurantViewModel viewModel) {
-    return Center(child: Lottie.asset(viewModel.getLottieLoading()));
   }
 }

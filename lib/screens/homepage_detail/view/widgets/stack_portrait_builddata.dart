@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:restaurant_app/screens/riviewpage/view/riview_view.dart';
 import '../../models/restaurant_detail.dart';
 import 'container_background.dart';
 
@@ -24,6 +25,12 @@ class BuildDetailHasData extends StatelessWidget {
               scrolledUnderElevation: 0,
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
+              actions: [
+                IconButton(
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (x) => const RiviewView())),
+                    icon: const Icon(Icons.comment))
+              ],
             ),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.end,

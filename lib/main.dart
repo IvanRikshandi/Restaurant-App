@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/constants/constants.dart';
 import 'package:restaurant_app/screens/homepage/view_model/homepage_viewmodel.dart';
 import 'package:restaurant_app/screens/homepage_detail/view_model/detailHomepage_viewmodel.dart';
 import 'package:restaurant_app/screens/splashscreen/splashscreen.dart';
@@ -21,7 +22,9 @@ class MyApp extends StatelessWidget {
     );
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => HomepageRestaurantViewModel()),
+        ChangeNotifierProvider(
+            create: (_) =>
+                HomepageRestaurantViewModel(apiService: BaseConstant())),
         ChangeNotifierProvider(create: (_) => DetailRestaurantViewModel()),
       ],
       child: MaterialApp(
