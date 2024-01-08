@@ -16,25 +16,6 @@ class BuildRestaurantList extends StatefulWidget {
 }
 
 class _BuildRestaurantListState extends State<BuildRestaurantList> {
-  HomepageRestaurantViewModel get viewModel =>
-      context.read<HomepageRestaurantViewModel>();
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  void loadData() async {
-    await viewModel.fetchData();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    loadData();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<HomepageRestaurantViewModel>(

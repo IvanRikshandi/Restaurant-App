@@ -32,12 +32,11 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
   Future<void> fetchData() async {
     try {
       _state = ResultState.loading;
-      notifyListeners();
 
       if (isSearching) {
         await searchRestaurants(query);
       } else {
-        await fetchRestaurantList();
+        await fetchRestaurantLists();
       }
     } catch (_) {
       _state = ResultState.failure;
@@ -46,7 +45,7 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchRestaurantList() async {
+  Future<void> fetchRestaurantLists() async {
     try {
       _state = ResultState.loading;
       _restaurantAppModel = await apiService.fetchRestaurantList();
@@ -55,8 +54,7 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
       } else {
         _state = ResultState.hasData;
       }
-    } catch (e) {
-      print('Error fetching data: $e');
+    } catch (_) {
       _state = ResultState.failure;
     } finally {
       notifyListeners();
@@ -66,19 +64,18 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
   Future<void> searchRestaurants(String query) async {
     try {
       _state = ResultState.loading;
-      notifyListeners();
 
-      List<RestaurantAppModel> restaurant =
-          (await apiService.searchRestaurant(query));
+      RestaurantAppModel restaurant = await apiService.searchRestaurant(query);
 
-      _restaurantAppModel = restaurant as RestaurantAppModel;
+      _restaurantAppModel.restaurants = restaurant.restaurants;
 
       if (_restaurantAppModel.restaurants.isEmpty) {
         _state = ResultState.noData;
       } else {
         _state = ResultState.hasData;
       }
-    } catch (_) {
+    } catch (error) {
+      print('Error: $error');
       _state = ResultState.failure;
     } finally {
       notifyListeners();

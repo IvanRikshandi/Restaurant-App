@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/screens/homepage/view/widget/carousel.dart';
+import '../view_model/homepage_viewmodel.dart';
 import 'widget/gridview.dart';
 import 'widget/textfield_search.dart';
 
@@ -12,6 +14,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  HomepageRestaurantViewModel get viewModel =>
+      context.read<HomepageRestaurantViewModel>();
+
+  void loadData() async {
+    await viewModel.fetchData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.landscape) {

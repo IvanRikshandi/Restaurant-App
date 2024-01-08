@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/constants/constants.dart';
 import 'package:restaurant_app/screens/homepage/view_model/homepage_viewmodel.dart';
 import 'package:restaurant_app/screens/homepage_detail/view_model/detailHomepage_viewmodel.dart';
+import 'package:restaurant_app/screens/riviewpage/view_model/riview_viewmodel.dart';
 import 'package:restaurant_app/screens/splashscreen/splashscreen.dart';
 
 void main() {
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
             create: (_) =>
                 HomepageRestaurantViewModel(apiService: BaseConstant())),
         ChangeNotifierProvider(create: (_) => DetailRestaurantViewModel()),
+        ChangeNotifierProvider(create: (_) => RiviewViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

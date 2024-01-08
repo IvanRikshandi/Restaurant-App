@@ -23,11 +23,7 @@ class DetailRestaurantViewModel extends ChangeNotifier {
   }
 
   String getImageUrl(String pictureId) {
-    if (pictureId.isNotEmpty) {
-      return '${BaseConstant.baseUrl}/images/medium/$pictureId';
-    } else {
-      return ImageUrls.placeholderImage;
-    }
+    return '${BaseConstant.baseUrl}/images/medium/$pictureId';
   }
 
   String getLottieLoading() {
