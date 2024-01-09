@@ -234,47 +234,62 @@ class BuildDetailHasData extends StatelessWidget {
                                   );
                                 })),
                           ),
-                          Container(
-                            margin: const EdgeInsetsDirectional.symmetric(
-                                vertical: 10),
-                            width: double.infinity,
-                            height: 50,
-                            child: GridView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount: restaurant.customerReviews.length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 250,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                  childAspectRatio: 1 / 4,
-                                ),
-                                itemBuilder: ((context, index) {
-                                  final review =
-                                      restaurant.customerReviews[index];
-                                  return GridTile(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(5),
-                                      decoration: BoxDecoration(
-                                        color: Colors.yellow,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Center(
-                                          child: FittedBox(
-                                        fit: BoxFit.fitHeight,
-                                        child: Text(
-                                          review.name,
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      )),
+                          GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: restaurant.customerReviews.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                crossAxisSpacing: 2,
+                                mainAxisSpacing: 8,
+                                childAspectRatio: 5,
+                              ),
+                              itemBuilder: ((context, index) {
+                                final review =
+                                    restaurant.customerReviews[index];
+                                return GridTile(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                  );
-                                })),
-                          ),
+                                    child: FittedBox(
+                                      alignment: Alignment.centerLeft,
+                                      fit: BoxFit.scaleDown,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            review.name,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          Text(
+                                            review.review,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                              overflow: TextOverflow.clip,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          Text(
+                                            review.date,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              })),
                         ],
                       ),
                     ),
