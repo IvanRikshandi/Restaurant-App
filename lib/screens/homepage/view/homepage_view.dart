@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/constants/constants.dart';
 import 'package:restaurant_app/screens/homepage/view/widget/carousel.dart';
-import '../view_model/homepage_viewmodel.dart';
 import 'widget/gridview.dart';
 import 'widget/textfield_search.dart';
 
@@ -16,17 +16,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    var networkStatus = Provider.of<ConnectivityStatus>(context);
+
     if (MediaQuery.of(context).orientation == Orientation.landscape) {
       return Scaffold(
-        body: SafeArea(
-          child: _landscapeMode(),
-        ),
+        body: networkStatus == ConnectivityStatus.connected
+            ? SafeArea(
+                child: _landscapeMode(),
+              )
+            : _buildNoConnectionPage(),
       );
     } else {
       return Scaffold(
-        body: SafeArea(
-          child: _portraitMode(),
-        ),
+        body: networkStatus == ConnectivityStatus.connected
+            ? SafeArea(
+                child: _portraitMode(),
+              )
+            : _buildNoConnectionPage(),
       );
     }
   }
@@ -144,6 +150,22 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildNoConnectionPage() {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.signal_wifi_off, size: 48, color: Colors.red),
+          SizedBox(height: 16),
+          Text(
+            'Tidak ada koneksi internet',
+            style: TextStyle(fontSize: 18, color: Colors.red),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:restaurant_app/common/constants/constants.dart';
 import 'package:restaurant_app/common/global/imgurls.dart';
@@ -11,15 +12,19 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
     fetchRestaurantLists();
   }
 
+  ConnectivityStatus _status = ConnectivityStatus.connected;
   late RestaurantAppModel _restaurantAppModel;
   late RestaurantDetailApp _restaurantDetailApp;
   ResultState _state = ResultState.loading;
   String _message = '';
 
+  ConnectivityStatus get status => _status;
   String get message => _message;
   RestaurantAppModel get restaurantAppModel => _restaurantAppModel;
   RestaurantDetailApp get restaurantDetailApp => _restaurantDetailApp;
   ResultState get state => _state;
+
+  bool get isConnected => _status == ConnectivityStatus.connected;
 
   Future<dynamic> fetchRestaurantLists() async {
     try {
@@ -41,6 +46,17 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  ConnectivityProvider() {
+    Connectivity().onConnectivityChanged.listen((result) {
+      if (result == ConnectivityResult.none) {
+        _status = ConnectivityStatus.disconnected;
+      } else {
+        _status = ConnectivityStatus.connected;
+      }
+      notifyListeners();
+    });
   }
 
   Future<void> searchRestaurants(String query) async {

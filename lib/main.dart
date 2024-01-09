@@ -1,7 +1,9 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/constants/constants.dart';
+import 'package:restaurant_app/common/service/network_service.dart';
 import 'package:restaurant_app/screens/homepage/view_model/homepage_viewmodel.dart';
 import 'package:restaurant_app/screens/homepage_detail/view_model/detailHomepage_viewmodel.dart';
 import 'package:restaurant_app/screens/riviewpage/view_model/riview_viewmodel.dart';
@@ -23,6 +25,9 @@ class MyApp extends StatelessWidget {
     );
     return MultiProvider(
       providers: [
+        StreamProvider(
+            create: (_) => NetworkService().controller.stream,
+            initialData: ConnectivityStatus.connected),
         ChangeNotifierProvider(
             create: (_) =>
                 HomepageRestaurantViewModel(apiService: BaseConstant())),

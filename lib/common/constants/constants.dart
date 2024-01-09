@@ -6,6 +6,8 @@ import '../../screens/homepage/models/restaurantmodels.dart';
 
 enum ResultState { loading, failure, hasData, noData }
 
+enum ConnectivityStatus { connected, disconnected }
+
 class BaseConstant {
   static const String baseUrl = "https://restaurant-api.dicoding.dev";
   static const String listEndpoint = "/list";
