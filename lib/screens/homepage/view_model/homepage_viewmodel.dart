@@ -7,52 +7,34 @@ import '../models/restaurantmodels.dart';
 class HomepageRestaurantViewModel extends ChangeNotifier {
   final BaseConstant apiService;
 
-  HomepageRestaurantViewModel({required this.apiService});
+  HomepageRestaurantViewModel({required this.apiService}) {
+    fetchRestaurantLists();
+  }
 
   late RestaurantAppModel _restaurantAppModel;
   late RestaurantDetailApp _restaurantDetailApp;
   ResultState _state = ResultState.loading;
+  String _message = '';
 
+  String get message => _message;
   RestaurantAppModel get restaurantAppModel => _restaurantAppModel;
   RestaurantDetailApp get restaurantDetailApp => _restaurantDetailApp;
   ResultState get state => _state;
 
-  bool _isSearching = false;
-
-  String querys = '';
-
-  set isSearching(bool value) {
-    _isSearching = value;
-    notifyListeners();
-  }
-
-  bool get isSearching => _isSearching;
-  String get query => querys;
-
-  Future<void> fetchData() async {
+  Future<dynamic> fetchRestaurantLists() async {
     try {
       _state = ResultState.loading;
-
-      if (isSearching) {
-        await searchRestaurants(query);
-      } else {
-        await fetchRestaurantLists();
-      }
-    } catch (_) {
-      _state = ResultState.failure;
-    } finally {
       notifyListeners();
-    }
-  }
 
-  Future<void> fetchRestaurantLists() async {
-    try {
-      _state = ResultState.loading;
-      _restaurantAppModel = await apiService.fetchRestaurantList();
-      if (_restaurantAppModel.restaurants.isEmpty) {
+      final result = await apiService.fetchRestaurantList();
+      if (result.restaurants.isEmpty) {
         _state = ResultState.noData;
+        notifyListeners();
+        return _message = 'Empty Data';
       } else {
         _state = ResultState.hasData;
+        notifyListeners();
+        return _restaurantAppModel = result;
       }
     } catch (_) {
       _state = ResultState.failure;

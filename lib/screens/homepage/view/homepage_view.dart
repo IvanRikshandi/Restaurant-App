@@ -14,19 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomepageRestaurantViewModel get viewModel =>
-      context.read<HomepageRestaurantViewModel>();
-
-  void loadData() async {
-    await viewModel.fetchData();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    loadData();
-  }
-
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.landscape) {
