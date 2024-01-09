@@ -16,7 +16,8 @@ class TextFieldWidget extends StatelessWidget {
         height: 40,
         child: TextField(
           onChanged: (query) {
-            viewModel.searchRestaurants(query);
+            viewModel.querys = query;
+            viewModel.fetchData();
           },
           decoration: InputDecoration(
             filled: true,

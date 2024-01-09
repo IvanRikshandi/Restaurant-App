@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:restaurant_app/common/constants/constants.dart';
 import 'package:restaurant_app/common/global/imgurls.dart';
@@ -12,19 +11,48 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
     fetchRestaurantLists();
   }
 
-  ConnectivityStatus _status = ConnectivityStatus.connected;
   late RestaurantAppModel _restaurantAppModel;
   late RestaurantDetailApp _restaurantDetailApp;
   ResultState _state = ResultState.loading;
+  bool _isSearching = false;
   String _message = '';
+  String querys = '';
+  RestaurantAppModel _searchRestaurantResult = RestaurantAppModel(
+    error: false,
+    message: '',
+    count: 0,
+    restaurants: [],
+  );
 
-  ConnectivityStatus get status => _status;
   String get message => _message;
   RestaurantAppModel get restaurantAppModel => _restaurantAppModel;
+  RestaurantAppModel get searchRestaurantResult => _searchRestaurantResult;
   RestaurantDetailApp get restaurantDetailApp => _restaurantDetailApp;
   ResultState get state => _state;
+  bool get isSearching => _isSearching;
+  String get query => querys;
 
-  bool get isConnected => _status == ConnectivityStatus.connected;
+  set isSearching(bool value) {
+    _isSearching = value;
+    notifyListeners();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      _state = ResultState.loading;
+      notifyListeners();
+
+      if (isSearching) {
+        await searchRestaurants(query);
+      } else {
+        await fetchRestaurantLists();
+      }
+    } catch (_) {
+      _state = ResultState.failure;
+    } finally {
+      notifyListeners();
+    }
+  }
 
   Future<dynamic> fetchRestaurantLists() async {
     try {
@@ -34,11 +62,9 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
       final result = await apiService.fetchRestaurantList();
       if (result.restaurants.isEmpty) {
         _state = ResultState.noData;
-        notifyListeners();
         return _message = 'Empty Data';
       } else {
         _state = ResultState.hasData;
-        notifyListeners();
         return _restaurantAppModel = result;
       }
     } catch (_) {
@@ -48,32 +74,21 @@ class HomepageRestaurantViewModel extends ChangeNotifier {
     }
   }
 
-  ConnectivityProvider() {
-    Connectivity().onConnectivityChanged.listen((result) {
-      if (result == ConnectivityResult.none) {
-        _status = ConnectivityStatus.disconnected;
-      } else {
-        _status = ConnectivityStatus.connected;
-      }
-      notifyListeners();
-    });
-  }
-
   Future<void> searchRestaurants(String query) async {
     try {
       _state = ResultState.loading;
+      notifyListeners();
 
-      RestaurantAppModel restaurant = await apiService.searchRestaurant(query);
+      final searchResult = await apiService.searchRestaurant(query);
 
-      _restaurantAppModel.restaurants = restaurant.restaurants;
+      _searchRestaurantResult = searchResult;
 
-      if (_restaurantAppModel.restaurants.isEmpty) {
+      if (_searchRestaurantResult.restaurants.isEmpty) {
         _state = ResultState.noData;
       } else {
         _state = ResultState.hasData;
       }
-    } catch (error) {
-      print('Error: $error');
+    } catch (_) {
       _state = ResultState.failure;
     } finally {
       notifyListeners();

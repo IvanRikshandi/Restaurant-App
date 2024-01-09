@@ -25,8 +25,7 @@ class BaseConstant {
   }
 
   Future<RestaurantDetailApp> fetchRestaurantDetail(String id) async {
-    final response = await http.get(
-        Uri.parse('${BaseConstant.baseUrl}${BaseConstant.detailEndpoint}/$id'));
+    final response = await http.get(Uri.parse('$baseUrl$detailEndpoint/$id'));
     if (response.statusCode == 200) {
       return restaurantDetailAppFromJson(response.body);
     } else {
@@ -36,13 +35,10 @@ class BaseConstant {
 
   Future<RestaurantAppModel> searchRestaurant(String query) async {
     final response = await http.get(Uri.parse('$baseUrl$searchEndpoint$query'));
-
     if (response.statusCode == 200) {
-      final RestaurantAppModel restaurantAppModel =
-          restaurantAppModelFromJson(response.body);
-      return restaurantAppModel;
+      return restaurantAppModelFromJson(response.body);
     } else {
-      throw Exception('Failed to Load Data');
+      throw Exception('Failed to perform search');
     }
   }
 

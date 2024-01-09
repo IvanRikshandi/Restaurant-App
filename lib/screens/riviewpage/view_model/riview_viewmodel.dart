@@ -19,10 +19,9 @@ class RiviewViewModel extends ChangeNotifier {
       await _apiService.postRestaurantReview(name, review, date);
 
       await fetchRestaurantReviews();
-    } catch (e) {
+    } catch (_) {
       _state = ResultState.failure;
       notifyListeners();
-      print('Error posting review: $e');
     }
   }
 
@@ -41,10 +40,9 @@ class RiviewViewModel extends ChangeNotifier {
       }
 
       notifyListeners();
-    } catch (e) {
+    } catch (_) {
       _state = ResultState.failure;
       notifyListeners();
-      print('Error fetching reviews: $e');
     }
   }
 }

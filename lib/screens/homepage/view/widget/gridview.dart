@@ -27,6 +27,9 @@ class _BuildRestaurantListState extends State<BuildRestaurantList> {
       } else if (viewModel.state == ResultState.loading) {
         return buildLoading(viewModel);
       } else {
+        final List<Restaurant> restaurants = viewModel.isSearching
+            ? viewModel.searchRestaurantResult.restaurants
+            : viewModel.restaurantAppModel.restaurants;
         return GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate:
@@ -43,9 +46,9 @@ class _BuildRestaurantListState extends State<BuildRestaurantList> {
                       mainAxisSpacing: 4,
                       childAspectRatio: 0.8),
           shrinkWrap: true,
-          itemCount: viewModel.restaurantAppModel.restaurants.length,
+          itemCount: restaurants.length,
           itemBuilder: (context, idx) {
-            final resto = viewModel.restaurantAppModel.restaurants[idx];
+            final resto = restaurants[idx];
             final imgUrl = viewModel.getImageUrl(resto.pictureId);
             return _buildCard(imgUrl, resto, context, viewModel);
           },
