@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/helper/dbhelper.dart';
 import 'package:restaurant_app/common/service/constants.dart';
 import 'package:restaurant_app/common/service/endpoint.dart';
-import '../../../common/database/dbhelper.dart';
 import '../../../common/global/imgurls.dart';
 import '../models/restaurant_detail.dart';
 

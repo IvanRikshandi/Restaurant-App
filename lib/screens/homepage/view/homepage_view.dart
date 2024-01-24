@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/helper/notification_helper.dart';
 import 'package:restaurant_app/common/service/constants.dart';
+import 'package:restaurant_app/screens/homepage/models/restaurantmodels.dart';
 import 'package:restaurant_app/screens/homepage/view/widget/carousel.dart';
+import 'package:restaurant_app/screens/homepage_detail/view/homepage_detail.dart';
 import 'widget/gridview.dart';
 import 'widget/textfield_search.dart';
 
@@ -14,6 +19,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationHelper.configureSelectNotificationSubject((payload) {
+      var data = RestaurantAppModel.fromJson(json.decode(payload));
+      var restaurantId = data.restaurants.isNotEmpty
+          ? data.restaurants[0].id
+          : 'defaultRestaurantId';
+
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => HomePageDetail(restaurantId: restaurantId),
+      ));
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    selectNotificationSubject.close();
+  }
+
   @override
   Widget build(BuildContext context) {
     var networkStatus = Provider.of<ConnectivityStatus>(context);

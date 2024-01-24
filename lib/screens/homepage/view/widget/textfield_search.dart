@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/screens/homepage/view/favoritelist_page/view/favoriteslist_pageview.dart';
+import 'package:restaurant_app/screens/homepage/view/settings_page/view/settingsview_page.dart';
 import '../../view_model/homepage_viewmodel.dart';
 
 class TextFieldWidget extends StatelessWidget {
@@ -60,7 +61,9 @@ class TextFieldWidget extends StatelessWidget {
             width: 8,
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const SettingsPageView()),
+            ),
             child: const Icon(
               Icons.more_vert,
               color: Colors.orange,

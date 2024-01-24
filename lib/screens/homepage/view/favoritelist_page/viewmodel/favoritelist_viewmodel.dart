@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/global/imgurls.dart';
+import 'package:restaurant_app/common/helper/dbhelper.dart';
 import 'package:restaurant_app/common/service/constants.dart';
-
-import '../../../../../common/database/dbhelper.dart';
 
 class FavoriteListViewModel extends ChangeNotifier {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
