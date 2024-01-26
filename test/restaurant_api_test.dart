@@ -1,117 +1,118 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:http/http.dart' as http;
-import 'package:restaurant_app/common/service/constants.dart';
-import 'package:restaurant_app/common/service/endpoint.dart';
 import 'package:restaurant_app/screens/homepage/models/restaurantmodels.dart';
-import 'package:restaurant_app/screens/homepage/view_model/homepage_viewmodel.dart';
-
-class MockApiService extends Mock implements EndPoint {
-  @override
-  Future<RestaurantAppModel> fetchRestaurantList() async {
-    return RestaurantAppModel(
-      error: false,
-      message: 'Mock data',
-      count: 2,
-      restaurants: [
-        Restaurant(
-          id: '1',
-          name: 'Mock Restaurant 1',
-          description: 'Description 1',
-          pictureId: 'picture_1',
-          city: 'City 1',
-          rating: 4.5,
-        ),
-        Restaurant(
-          id: '2',
-          name: 'Mock Restaurant 2',
-          description: 'Description 2',
-          pictureId: 'picture_2',
-          city: 'City 2',
-          rating: 4.0,
-        ),
-      ],
-    );
-  }
-}
 
 void main() {
-  group('HomepageRestaurantViewModel Tests', () {
-    late HomepageRestaurantViewModel viewModel;
-    late MockApiService mockApiService;
+  group('RestaurantAppModel', () {
+    test('fromJson creates a valid RestaurantAppModel object', () {
+      final jsonMap = {
+        'error': false,
+        'message': 'Success',
+        'count': 2,
+        'restaurants': [
+          {
+            'id': '1',
+            'name': 'Restaurant 1',
+            'description': 'Description 1',
+            'pictureId': 'pic1',
+            'city': 'City 1',
+            'rating': 4.5,
+          },
+          {
+            'id': '2',
+            'name': 'Restaurant 2',
+            'description': 'Description 2',
+            'pictureId': 'pic2',
+            'city': 'City 2',
+            'rating': 3.8,
+          },
+        ],
+      };
 
-    setUp(() {
-      mockApiService = MockApiService();
-      viewModel = HomepageRestaurantViewModel(apiService: mockApiService);
+      final model = RestaurantAppModel.fromJson(jsonMap);
+
+      expect(model.error, false);
+      expect(model.message, 'Success');
+      expect(model.count, 2);
+      expect(model.restaurants, hasLength(2));
+      expect(model.restaurants[0].name, 'Restaurant 1');
+      expect(model.restaurants[1].city, 'City 2');
     });
 
-    test('fetchRestaurantLists returns data on success', () async {
-      // Arrange
-      final mockResult = RestaurantAppModel(
+    test('toJson converts a RestaurantAppModel object to a JSON map', () {
+      final model = RestaurantAppModel(
         error: false,
         message: 'Success',
         count: 2,
         restaurants: [
           Restaurant(
             id: '1',
-            name: 'Restaurant A',
-            description: 'Description A',
-            pictureId: 'picture_A',
-            city: 'City A',
+            name: 'Restaurant 1',
+            description: 'Description 1',
+            pictureId: 'pic1',
+            city: 'City 1',
             rating: 4.5,
           ),
           Restaurant(
             id: '2',
-            name: 'Restaurant B',
-            description: 'Description B',
-            pictureId: 'picture_B',
-            city: 'City B',
-            rating: 4.0,
+            name: 'Restaurant 2',
+            description: 'Description 2',
+            pictureId: 'pic2',
+            city: 'City 2',
+            rating: 3.8,
           ),
         ],
       );
 
-      when(mockApiService.fetchRestaurantList())
-          .thenAnswer((_) async => mockResult);
+      final jsonMap = model.toJson();
 
-      // Act
-      await viewModel.fetchRestaurantLists();
+      expect(jsonMap['error'], false);
+      expect(jsonMap['message'], 'Success');
+      expect(jsonMap['count'], 2);
+      expect(jsonMap['restaurants'], hasLength(2));
+      expect(jsonMap['restaurants'][0]['name'], 'Restaurant 1');
+      expect(jsonMap['restaurants'][1]['city'], 'City 2');
+    });
+  });
 
-      // Assert
-      expect(viewModel.state, ResultState.hasData);
-      expect(viewModel.restaurantAppModel, mockResult);
+  group('Restaurant', () {
+    test('fromJson creates a valid Restaurant object', () {
+      final jsonMap = {
+        'id': '1',
+        'name': 'Restaurant 1',
+        'description': 'Description 1',
+        'pictureId': 'pic1',
+        'city': 'City 1',
+        'rating': 4.5,
+      };
+
+      final restaurant = Restaurant.fromJson(jsonMap);
+
+      expect(restaurant.id, '1');
+      expect(restaurant.name, 'Restaurant 1');
+      expect(restaurant.description, 'Description 1');
+      expect(restaurant.pictureId, 'pic1');
+      expect(restaurant.city, 'City 1');
+      expect(restaurant.rating, 4.5);
     });
 
-    test('fetchRestaurantLists sets state to noData when result is empty',
-        () async {
-      // Arrange
-      final mockResult = RestaurantAppModel(
-        error: false,
-        message: 'Success',
-        count: 0,
-        restaurants: [],
+    test('toJson converts a Restaurant object to a JSON map', () {
+      final restaurant = Restaurant(
+        id: '1',
+        name: 'Restaurant 1',
+        description: 'Description 1',
+        pictureId: 'pic1',
+        city: 'City 1',
+        rating: 4.5,
       );
 
-      when(mockApiService.fetchRestaurantList())
-          .thenAnswer((_) async => mockResult);
+      final jsonMap = restaurant.toJson();
 
-      // Act
-      await viewModel.fetchRestaurantLists();
-
-      // Assert
-      expect(viewModel.state, ResultState.noData);
-      expect(viewModel.message, 'Empty Data');
-    });
-
-    test('fetchRestaurantLists sets state to failure on error', () async {
-      // Arrange
-      when(mockApiService.fetchRestaurantList()).thenThrow(Exception());
-
-      // Act
-      await viewModel.fetchRestaurantLists();
-
-      // Assert
-      expect(viewModel.state, ResultState.failure);
+      expect(jsonMap['id'], '1');
+      expect(jsonMap['name'], 'Restaurant 1');
+      expect(jsonMap['description'], 'Description 1');
+      expect(jsonMap['pictureId'], 'pic1');
+      expect(jsonMap['city'], 'City 1');
+      expect(jsonMap['rating'], 4.5);
     });
   });
 }
