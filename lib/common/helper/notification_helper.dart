@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:restaurant_app/screens/homepage/models/restaurantmodels.dart';
 import 'package:rxdart/rxdart.dart';
-import '../global/navigation.dart';
 
 final selectNotificationSubject = BehaviorSubject<String>();
 
