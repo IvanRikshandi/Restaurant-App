@@ -9,6 +9,7 @@ class SettingsPageView extends StatelessWidget {
   Future<void> _getSwitchValue(SettingsViewModel viewModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool storedValue = prefs.getBool('isScheduled') ?? false;
+    viewModel.updateScheduledValue(storedValue);
     print('Stored Switch Value: $storedValue');
   }
 

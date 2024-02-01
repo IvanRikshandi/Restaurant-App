@@ -167,7 +167,7 @@ class _BuildRestaurantListState extends State<BuildRestaurantList> {
           Icon(Icons.error_outline, size: 48, color: Colors.red),
           SizedBox(height: 16),
           Text(
-            'Error Something Wrong',
+            'Not Connected to the Internet',
             style: TextStyle(fontSize: 18, color: Colors.black),
           ),
         ],

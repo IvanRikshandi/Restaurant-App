@@ -80,33 +80,36 @@ class _HomePageDetailState extends State<HomePageDetail> {
 }
 
 Widget buildNoData(DetailRestaurantViewModel viewModel) {
-  return const Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.folder_off_rounded, size: 48, color: Colors.yellow),
-        SizedBox(height: 16),
-        Text(
-          'Data is Empty',
-          style: TextStyle(fontSize: 18, color: Colors.black),
-        ),
-      ],
+  return const Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.folder_off_rounded, size: 48, color: Colors.yellow),
+          SizedBox(height: 16),
+          Text(
+            'Data is Empty',
+            style: TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ],
+      ),
     ),
   );
 }
 
 Widget buildErrorData(DetailRestaurantViewModel viewModel) {
-  return const Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.error_outline, size: 48, color: Colors.red),
-        SizedBox(height: 16),
-        Text(
-          'Error Something Wrong',
-          style: TextStyle(fontSize: 18, color: Colors.black),
-        ),
-      ],
+  return const Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.error_outline, size: 48, color: Colors.red),
+          Text(
+            'Not Connected to the Internet',
+            style: TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ],
+      ),
     ),
   );
 }

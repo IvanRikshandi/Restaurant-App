@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:restaurant_app/screens/homepage/models/restaurantmodels.dart';
 import 'package:rxdart/rxdart.dart';
@@ -32,7 +33,8 @@ class NotificationHelper {
         onDidReceiveNotificationResponse: (NotificationResponse details) async {
       final payload = details.payload;
       if (payload != null) {
-        print('notification payload: ' + payload);
+        // ignore: avoid_print
+        print('notification payload: $payload');
       }
       selectNotificationSubject.add(payload ?? 'empty payload');
     });
@@ -58,8 +60,9 @@ class NotificationHelper {
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
 
+    int randomIndex = Random().nextInt(restaurant.restaurants.length);
     var titleNotification = "<b>Restaurant Notification</b>";
-    var titleNews = restaurant.restaurants[0].name;
+    var titleNews = restaurant.restaurants[randomIndex].name;
 
     await flutterLocalNotificationsPlugin.show(
         0, titleNotification, titleNews, platformChannelSpecifics,

@@ -21,6 +21,8 @@ class DetailRestaurantViewModel extends ChangeNotifier {
 
   Future<void> fetchRestaurantDetail(String id) async {
     try {
+      _state = ResultState.loading;
+
       _restaurantDetailApp = await _apiService.fetchRestaurantDetail(id);
       _isFavorite = await _databaseHelper.isRestaurantFavorite(id);
       _state = ResultState.hasData;

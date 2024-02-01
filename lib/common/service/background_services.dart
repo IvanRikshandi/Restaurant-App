@@ -20,14 +20,8 @@ class BackgroundService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  void initializeIsolate() {
-    IsolateNameServer.registerPortWithName(
-      port.sendPort,
-      _isolateName,
-    );
-  }
-
   static Future<void> callback() async {
+    // ignore: avoid_print
     print('Alarm fired!');
     final NotificationHelper notificationHelper = NotificationHelper();
     var result = await EndPoint().fetchRestaurantList();
@@ -36,5 +30,12 @@ class BackgroundService {
 
     _uiSendPort ??= IsolateNameServer.lookupPortByName(_isolateName);
     _uiSendPort?.send(null);
+  }
+
+  void initializeIsolate() {
+    IsolateNameServer.registerPortWithName(
+      port.sendPort,
+      _isolateName,
+    );
   }
 }

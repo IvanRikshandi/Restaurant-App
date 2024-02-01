@@ -14,11 +14,15 @@ class SettingsViewModel extends ChangeNotifier {
     await prefs.setBool('isScheduled', value);
   }
 
+  void updateScheduledValue(bool value) {
+    _isScheduled = value;
+    notifyListeners();
+  }
+
   Future<bool> scheduledNews(bool value) async {
     _isScheduled = value;
     await _saveToSharedPreferences(value);
     if (_isScheduled) {
-      print('Scheduling News Activated');
       notifyListeners();
       return await AndroidAlarmManager.periodic(
         const Duration(hours: 24),
@@ -29,7 +33,6 @@ class SettingsViewModel extends ChangeNotifier {
         wakeup: true,
       );
     } else {
-      print('Scheduling News Canceled');
       notifyListeners();
       return await AndroidAlarmManager.cancel(1);
     }

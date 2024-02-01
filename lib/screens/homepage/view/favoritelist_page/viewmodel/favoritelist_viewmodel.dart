@@ -15,17 +15,15 @@ class FavoriteListViewModel extends ChangeNotifier {
   Future<void> fetchFavoriteRestaurants() async {
     try {
       _state = ResultState.loading;
-      _favoriteRestaurants = await _databaseHelper.getRestaurants();
       notifyListeners();
+
+      _favoriteRestaurants = await _databaseHelper.getRestaurants();
       if (_favoriteRestaurants.isEmpty) {
         _state = ResultState.noData;
-        notifyListeners();
       } else {
         _state = ResultState.hasData;
-        notifyListeners();
       }
     } catch (e) {
-      print('Error fetching favorite restaurants: $e');
       _state = ResultState.failure;
     } finally {
       notifyListeners();
